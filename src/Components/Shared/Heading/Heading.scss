@@ -1,0 +1,11 @@
+.heading-wrapper {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  font-family: "Oswald";
+  margin: 5rem 0 7rem 0;
+  & > h1 {
+    font-size: 4rem;
+    letter-spacing: 1px;
+  }
+}

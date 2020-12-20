@@ -1,0 +1,12 @@
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  .ant-form-item {
+    margin-left: 2rem;
+  }
+  .form-btn {
+    width: 10rem;
+    background-color: green;
+  }
+}
