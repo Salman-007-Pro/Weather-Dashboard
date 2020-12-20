@@ -8,6 +8,9 @@ import { Form, Button, Select, message } from "antd";
 //actions
 import Actions from "redux/actions";
 
+//lodash
+import _ from "lodash";
+
 //loader
 import { IN_PROGRESS } from "constants/loader";
 
@@ -23,6 +26,9 @@ const {
 
   //get region Cities
   getRegionCitiesInProgress,
+
+  //get weather info
+  getWeatherDataInProgress,
 } = Actions;
 
 const { Option } = Select;
@@ -38,14 +44,21 @@ const SelectForm = () => {
     uiStateCities,
     error,
   } = useSelector((state) => state.Countries);
+  const { uiState, error: weatherError } = useSelector((state) => state.Weather);
 
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
     const { city } = values;
-    const currentCityData = cities?.filter((el) => el.city === city);
-    console.log(currentCityData);
-    console.log("Received values of form: ", values);
+    const obj = {
+      city: "Jacobabad District",
+      country: "pk",
+      latitude: "28.22209930",
+      longitude: "68.49019623",
+      region: "Sindh",
+    };
+    const currentCityData = cities?.filter((el) => el.city === city)[0];
+    dispatch(getWeatherDataInProgress(currentCityData));
   };
 
   const countryHandler = (countryCode) => {
@@ -62,6 +75,9 @@ const SelectForm = () => {
 
   if (error) {
     message.error(error.message);
+  }
+  if (weatherError) {
+    message.error(weatherError.message);
   }
   return (
     <Form layout="vertical" form={form} className="form-wrapper" onFinish={onFinish}>
@@ -128,7 +144,11 @@ const SelectForm = () => {
         </Select>
       </Form.Item>
       <Form.Item>
-        <Button htmlType="submit" type="primary" className="form-btn">
+        <Button
+          htmlType="submit"
+          type="primary"
+          className="form-btn"
+          loading={uiState === IN_PROGRESS}>
           Search
         </Button>
       </Form.Item>

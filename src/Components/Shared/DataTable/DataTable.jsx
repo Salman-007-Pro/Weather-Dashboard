@@ -9,42 +9,50 @@ import "./DataTable.scss";
 
 const columns = [
   {
-    title: "Name",
-    dataIndex: "name",
+    title: "Country",
+    dataIndex: "country",
   },
   {
-    title: "Age",
-    dataIndex: "age",
+    title: "Region",
+    dataIndex: "region",
   },
   {
-    title: "Address",
-    dataIndex: "address",
+    title: "City",
+    dataIndex: "city",
+  },
+  {
+    title: "Temperature",
+    dataIndex: "temperature",
+  },
+  {
+    title: "Feel-Like",
+    dataIndex: "feellike",
+  },
+  {
+    title: "Cloud",
+    dataIndex: "cloud",
+  },
+  {
+    title: "Sunrise",
+    dataIndex: "sunrise",
+  },
+  {
+    title: "Sunset",
+    dataIndex: "sunset",
+  },
+  {
+    title: "Wind-Speed",
+    dataIndex: "windspeed",
   },
 ];
 
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-  },
-];
-
-const DataTable = () => {
-  return <Table columns={columns} dataSource={data} size="middle" pagination={false} />;
+const DataTable = ({ data, text }) => {
+  return (
+    <div className="datatable-wrapper">
+      <h2>{text}</h2>
+      <Table columns={columns} dataSource={data} size="middle" pagination={false} />
+    </div>
+  );
 };
 
 export default DataTable;

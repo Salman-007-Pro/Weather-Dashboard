@@ -12,6 +12,13 @@
   .weather-table {
     width: 80%;
     margin-bottom: 6rem;
+    font-family: "Oswald";
+    > p {
+      color: #ccc;
+      span {
+        color: black;
+      }
+    }
   }
   .weather-map {
     width: 80%;

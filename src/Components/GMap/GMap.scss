@@ -18,3 +18,10 @@
     height: 3rem;
   }
 }
+.popup-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+}

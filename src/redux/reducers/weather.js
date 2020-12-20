@@ -31,7 +31,7 @@ const weather = (state = initialState, action) => {
       return {
         ...state,
         uiState: SUCCESS,
-        countries: action.payload.countries,
+        weatherData: action.payload.weatherData,
         error: "",
       };
     case GET_WEATHER_FAILED:

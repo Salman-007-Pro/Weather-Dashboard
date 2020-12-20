@@ -26,6 +26,6 @@ export const getRegionCities = async (countryCode, region) => {
 
 export const getWeather = async (lat, lon) => {
   return await axios.get(
-    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=bed562c99cdf4399ea14ebd43d318b86`
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=bed562c99cdf4399ea14ebd43d318b86`
   );
 };

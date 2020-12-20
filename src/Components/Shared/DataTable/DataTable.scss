@@ -1,0 +1,12 @@
+.datatable-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  font-family: "Oswald";
+  //   margin: 5rem 0 7rem 0;
+  & > h2 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
