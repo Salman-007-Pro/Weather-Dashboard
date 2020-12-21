@@ -15,9 +15,8 @@ const GMap = ({ weathers }) => {
   const [viewport, setViewport] = useState({
     latitude: 30.37532,
     longitude: 69.345116,
-    zoom: 2,
+    zoom: 5,
   });
-
   useEffect(() => {
     const listener = (e) => {
       if (e.key === "Escape") {
@@ -30,14 +29,22 @@ const GMap = ({ weathers }) => {
       window.removeEventListener("keydown", listener);
     };
   }, []);
+  useEffect(() => {
+    setViewport({
+      latitude: weathers?.length ? parseFloat(weathers[0]?.latitude) : 30.37532,
+      longitude: weathers?.length ? parseFloat(weathers[0]?.longitude) : 69.345116,
+      zoom: 5,
+    });
+  }, [weathers ? weathers[0] : null]);
   return (
     <ReactMapGL
+      className="map-wrapper"
       {...viewport}
       width="100%"
       height="100%"
       mapboxApiAccessToken="pk.eyJ1Ijoic2FsbWFuLWFzaWYiLCJhIjoiY2tpdnE3NGoyM2E2MDJybGJteDdodmZqZyJ9.mG0O6hcWIvKjsW_tC0CpDg"
       onViewportChange={(viewport) => setViewport(viewport)}>
-      {weathers.map((country) => (
+      {weathers?.map((country) => (
         <Marker
           key={country.city}
           latitude={parseFloat(country.latitude)}

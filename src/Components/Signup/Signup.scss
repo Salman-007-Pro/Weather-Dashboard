@@ -1,0 +1,29 @@
+.signup {
+  font-family: "Oswald";
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+  .signup-title {
+    margin-bottom: 24px;
+    text-align: center;
+    h1 {
+      font-weight: 400;
+    }
+  }
+  .signup-body {
+    max-width: 420px;
+    margin: 12% auto 0 auto;
+    background: #fff;
+    padding: 40px 40px;
+    border-radius: 5px;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  }
+  .remember-me-box {
+    display: flex;
+    justify-content: space-between;
+  }
+  .submit-button-signup {
+    letter-spacing: 3px;
+    display: flex;
+    justify-content: center;
+  }
+}

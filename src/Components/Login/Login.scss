@@ -1,0 +1,49 @@
+.login {
+  font-family: "Oswald";
+  letter-spacing: 1px;
+  font-size: 1.8rem;
+  .login-title {
+    margin-bottom: 24px;
+    text-align: center;
+    h1 {
+      font-weight: 400;
+    }
+  }
+  .login-body {
+    max-width: 420px;
+    margin: 12% auto 0 auto;
+    background: #fff;
+    padding: 40px 40px;
+    border-radius: 5px;
+    box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  }
+  .remember-me-box {
+    display: flex;
+    justify-content: space-between;
+  }
+  .login-social {
+    display: flex;
+    font-size: 3.5rem;
+    justify-content: center;
+    align-items: center;
+    .social-icon {
+      cursor: pointer;
+    }
+    .social-icon:nth-child(1) {
+      color: #db4437;
+    }
+    .social-icon:nth-child(2) {
+      color: #4267b2;
+    }
+    .social-icon:nth-child(3) {
+      color: #24292e;
+    }
+    .social-icon:not(:last-child) {
+      margin-right: 2rem;
+    }
+  }
+  .submit-button {
+    display: flex;
+    justify-content: center;
+  }
+}

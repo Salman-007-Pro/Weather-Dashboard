@@ -1,0 +1,32 @@
+// #components-layout-demo-side .logo {
+//   //   height: 32px;
+//   //   margin: 16px;
+//   background: rgba(255, 255, 255, 0.3);
+// }
+
+// .site-layout .site-layout-background {
+//   background: #fff;
+// }
+.slider-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
+  font-family: "Oswald";
+  .slider-user {
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5rem;
+    .user-avatar {
+      margin-bottom: 2rem;
+    }
+    .user-name {
+      color: #fff;
+      text-align: center;
+      font-family: "Oswald";
+    }
+  }
+}
