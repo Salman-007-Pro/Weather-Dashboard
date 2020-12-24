@@ -8,7 +8,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_ID,
 };
 // Initialize Firebase
+console.log(firebase.apps);
 if (firebase.apps.length === 0) {
+  console.log("sirf ek dafa chalna chaiye yeh");
   firebase.initializeApp(firebaseConfig);
 }
 

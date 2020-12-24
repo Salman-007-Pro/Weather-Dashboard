@@ -1,16 +1,17 @@
 //main
 import React from "react";
+import { useSelector } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
 //moduleRoute
 import ModuleRoute from "modules/ModuleRoute";
 
 const PublicRoute = ({ component: Component, retricated, ...rest }) => {
-  const hasToken = false;
+  const { isAuth } = useSelector((state) => state.Auth);
   return (
     <Route
       {...rest}
-      render={(props) => (hasToken && retricated ? <Redirect to="/" /> : <Component {...props} />)}
+      render={(props) => (isAuth && retricated ? <Redirect to="/" /> : <Component {...props} />)}
     />
   );
 };

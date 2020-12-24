@@ -1,5 +1,6 @@
 //main
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 //antd components
@@ -17,32 +18,29 @@ import {
   FacebookFilled,
 } from "@ant-design/icons";
 
+//actions
+import Actions from "redux/actions";
+
+//constant
+import { IN_PROGRESS, SUCCESS, FAILED } from "constants/loader";
+
 //scss
 import "./Login.scss";
 
-const layout = {
-  labelCol: {
-    span: 8,
-  },
-  wrapperCol: {
-    span: 16,
-  },
-};
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
+const {
+  //login
+  loginInProgress,
+} = Actions;
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const dispatch = useDispatch();
+  const { user, uiStatelogin, error } = useSelector((state) => state.Auth);
+  const onFinish = ({ email, password }) => {
+    dispatch(loginInProgress(email, password));
   };
-  //   const { loginButtonUiState, error } = this.props.login;
-  //   if (loginButtonUiState === SUCCESS) {
-  //     return <Redirect to="/" />;
-  //   }
+  if (uiStatelogin === SUCCESS) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="login">
@@ -58,7 +56,7 @@ const Login = () => {
           <Form.Item
             name="password"
             rules={[{ required: true, message: "Please input your Password!" }]}>
-            <Input prefix={<LockOutlined />} type="password" placeholder="Password" />
+            <Input.Password prefix={<LockOutlined />} type="password" placeholder="Password" />
           </Form.Item>
 
           <Form.Item>
@@ -75,7 +73,7 @@ const Login = () => {
           </Form.Item>
           <div className="submit-button">
             <Button
-              //   loading={loginButtonUiState === IN_PROGRESS ? true : false}
+              loading={uiStatelogin === IN_PROGRESS}
               type="primary"
               htmlType="submit"
               className="login-form-button">
@@ -84,7 +82,7 @@ const Login = () => {
           </div>
         </Form>
       </div>
-      {/* {loginButtonUiState === FAILED && <Alert message={error} type="error" showIcon />} */}
+      {uiStatelogin === FAILED && <Alert message={error.message} type="error" showIcon />}
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Store from "redux/store";
 
-
 //app routes
 import AppRoutes from "AppRoutes/AppRoutes";
 
@@ -15,10 +14,10 @@ import Actions from "redux/actions";
 import "styles/App.scss";
 
 //firebase instance
-import firebase from "FirebaseConfig/config";
-import "firebase/firestore";
+// import firebase from "FirebaseConfig/config";
+// import "firebase/firestore";
 
-function App() {  
+function App() {
   // useEffect(() => {
   //   const apiCall = async () => {
   //     const response = await firebase.firestore().collection("users").get();

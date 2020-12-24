@@ -1,5 +1,6 @@
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch, connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 //components
 import Async from "Components/Shared/Async/Async";
@@ -7,20 +8,45 @@ import Async from "Components/Shared/Async/Async";
 //moduleRoute
 import ModuleRoute from "modules/ModuleRoute";
 
-//loader
-import { SUCCESS } from "constants/loader";
+//actions
+import Actions from "redux/actions";
 
-const PrivateRoute = () => {
-  const uiState = SUCCESS;
-  const error = "";
+const {
+  //check auth
+  checkAuthInProgress,
+} = Actions;
+
+const PrivateRoute = ({ checkAuth, Auth }) => {
+  // const dispatch = useDispatch();
+  // const { uiStateAuth, error, isAuth } = useSelector((state) => state.Auth);
+  const { uiStateAuth, error, isAuth } = Auth;
+  useEffect(() => {
+    // console.log("asd");
+    // dispatch(checkAuthInProgress());
+    checkAuth();
+    return () => {
+      console.log("yeh chalna nhi chaiye");
+    };
+  }, [isAuth]);
+
   return (
     <Async
-      uiState={uiState}
+      uiState={uiStateAuth}
       error={error}
       onSuccess={() => <ModuleRoute />}
       onFailure={() => <Redirect to="/auth/login" />}
     />
   );
 };
+const mapStateToProps = (state) => {
+  return {
+    Auth: state.Auth,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkAuth: () => dispatch(checkAuthInProgress()),
+  };
+};
 
-export default PrivateRoute;
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);

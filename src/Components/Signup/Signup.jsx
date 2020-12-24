@@ -1,9 +1,10 @@
 //main
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 //antd components
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button } from "antd";
 
 //components
 import Alert from "Components/Shared/Alert/Alert";
@@ -11,17 +12,32 @@ import Alert from "Components/Shared/Alert/Alert";
 //antd icon
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
+//actions
+import Actions from "redux/actions";
+
+//constant
+import { IN_PROGRESS, SUCCESS, FAILED } from "constants/loader";
+
 //scss
 import "./Signup.scss";
 
+const {
+  //sign up
+  signupInProgress,
+} = Actions;
+
 const Signup = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const dispatch = useDispatch();
+  const { user, uiStateSignup, error } = useSelector((state) => state.Auth);
+  console.log(user, uiStateSignup);
+
+  const onFinish = ({ email, password, name }) => {
+    console.log(email, password, name);
+    dispatch(signupInProgress(email, password, name));
   };
-  //   const { loginButtonUiState, error } = this.props.login;
-  //   if (loginButtonUiState === SUCCESS) {
-  //     return <Redirect to="/" />;
-  //   }
+  if (uiStateSignup === SUCCESS) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div className="signup">
@@ -31,16 +47,34 @@ const Signup = () => {
         </div>
         <Form name="normal_login" initialValues={{ remember: true }} onFinish={onFinish}>
           <Form.Item
+            name="name"
+            hasFeedback
+            rules={[{ required: true, message: "Please input your Name" }]}>
+            <Input prefix={<UserOutlined />} placeholder="Name" />
+          </Form.Item>
+          <Form.Item
             name="email"
             hasFeedback
             rules={[{ required: true, message: "Please input your Email!" }]}>
-            <Input prefix={<UserOutlined />} placeholder="Email" />
+            <Input prefix={<UserOutlined />} type="email" placeholder="Email" />
           </Form.Item>
 
           <Form.Item
             name="password"
             hasFeedback
-            rules={[{ required: true, message: "Please input your Password!" }]}>
+            rules={[
+              { required: true, message: "Please input your Password!" },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (value?.length >= 6) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    "plz enter the long password greater or equal then 6 character"
+                  );
+                },
+              }),
+            ]}>
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
           <Form.Item
@@ -71,7 +105,7 @@ const Signup = () => {
 
           <div className="submit-button-signup">
             <Button
-              //   loading={loginButtonUiState === IN_PROGRESS ? true : false}
+              loading={uiStateSignup === IN_PROGRESS}
               type="primary"
               htmlType="submit"
               className="login-form-button">
@@ -80,7 +114,7 @@ const Signup = () => {
           </div>
         </Form>
       </div>
-      {/* {loginButtonUiState === FAILED && <Alert message={error} type="error" showIcon />} */}
+      {uiStateSignup === FAILED && <Alert message={error.message} type="error" showIcon />}
     </div>
   );
 };

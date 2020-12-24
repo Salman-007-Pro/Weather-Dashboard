@@ -9,7 +9,8 @@ const AdminRouter = () => {
   return (
     <Switch>
       <Redirect exact from="/" to="/adminPanel" />
-      <Route path="/adminPanel" component={MainView} />
+      <Route exact path="/adminPanel" component={MainView} />
+      <Route exact path="/" render={() => <div>asdsa</div>} />
       <Route component={NotFound} />
     </Switch>
   );

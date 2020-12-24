@@ -13,7 +13,6 @@ const AuthContainer = () => {
     <Switch>
       <Route exact path={`${match.url}/login`} component={Login} />
       <Route exact path={`${match.url}/signup`} component={Signup} />
-
       <Route exact path={match.url} component={() => <Redirect to={`${match.url}/login`} />} />
       <Route component={NotFound} />
     </Switch>
