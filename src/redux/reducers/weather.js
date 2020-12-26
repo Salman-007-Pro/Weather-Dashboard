@@ -15,6 +15,7 @@ import {
 const initialState = {
   uiState: null,
   weatherData: [],
+  selected: null,
   error: "",
 };
 
@@ -32,6 +33,7 @@ const weather = (state = initialState, action) => {
         ...state,
         uiState: SUCCESS,
         weatherData: action.payload.weatherData,
+        selected: action.payload.selected,
         error: "",
       };
     case GET_WEATHER_FAILED:

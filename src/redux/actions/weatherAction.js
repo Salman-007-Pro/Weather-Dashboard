@@ -15,11 +15,12 @@ export const getWeatherDataInProgress = (getWeatherInfo) => {
   };
 };
 
-export const getWeatherDataSuccess = (weatherData) => {
+export const getWeatherDataSuccess = (weatherData, selected) => {
   return {
     type: GET_WEATHER_SUCCESS,
     payload: {
       weatherData,
+      selected,
     },
   };
 };

@@ -1,0 +1,16 @@
+.alluser-wrapper {
+  font-family: "Oswald";
+  display: flex;
+  //   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  & > h1 {
+    font-size: 5rem;
+    margin-top: 3rem;
+    margin-bottom: 8rem;
+  }
+  .users-table {
+    width: 80%;
+  }
+}

@@ -24,12 +24,11 @@ function* getAllCountry({ payload }) {
     const { data } = yield call(getWeather, latitude, longitude);
     let weatherData = yield select((state) => state.Weather?.weatherData);
     payload["current"] = data.current;
-    // payload["daily"] = data.daily;
+    payload["daily"] = data.daily;
     const index = weatherData.findIndex((el) => el.city === payload.city);
     index >= 0 ? (weatherData[index] = payload) : weatherData.unshift(payload);
-    yield put(getWeatherDataSuccess(weatherData));
+    yield put(getWeatherDataSuccess(weatherData, index));
   } catch (err) {
-    console.log(err);
     yield put(getWeatherDataFailed(err));
   }
 }

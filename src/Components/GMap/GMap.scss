@@ -1,30 +1,30 @@
 .map-wrapper {
-  z-index: 1;
-  .marker {
-    background-image: url("../../assets/marker/mapbox-icon.png");
-    background-size: cover;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
+  // z-index: 1;
+  // .marker {
+  //   background-image: url("../../assets/marker/mapbox-icon.png");
+  //   background-size: cover;
+  //   width: 50px;
+  //   height: 50px;
+  //   border-radius: 50%;
+  //   cursor: pointer;
+  // }
+}
+.marker-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  &:focus {
+    outline: none;
   }
-  .marker-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    &:focus {
-      outline: none;
-    }
-    & > img {
-      width: 3rem;
-      height: 3rem;
-    }
+  img {
+    width: 3rem;
+    height: 3rem;
   }
-  .popup-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-  }
+}
+.popup-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
 }

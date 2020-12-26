@@ -1,5 +1,6 @@
-import { takeLatest, put, call } from "redux-saga/effects";
+import { takeLatest, put, call, select } from "redux-saga/effects";
 import _ from "lodash";
+
 //actions
 import Actions from "redux/actions";
 
@@ -21,6 +22,7 @@ import {
   //region cities
   GET_REGION_CITIES_IN_PROGRESS,
 } from "constants/actions";
+import { ADMIN } from "constants/role";
 
 const {
   //get all countries
@@ -52,12 +54,15 @@ const withSubscribe = ["Canada", "United States of America", "Yemen", "Germany",
 
 function* getAllCountry() {
   try {
+    const {
+      user: { role },
+    } = yield select((state) => state.Auth);
     const { data } = yield call(getAllCountryName);
-    const filterData = data.filter((country) =>
-      countryAvaliable.some((name) => name === country.name)
-    );
-    // const a = _.keyBy(filterData, "name");
-    // console.log(a);
+    let countries = [...countryAvaliable];
+    if (role === ADMIN) {
+      countries.push(...withSubscribe);
+    }
+    const filterData = data.filter((country) => countries.some((name) => name === country.name));
     yield put(getAllCountrySuccess(filterData));
   } catch (err) {
     yield put(getAllCountryFailed(err));

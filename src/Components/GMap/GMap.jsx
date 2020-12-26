@@ -11,6 +11,7 @@ import "./GMap.scss";
 import MarkerImage from "assets/marker/mapbox-icon.png";
 
 const GMap = ({ weathers }) => {
+  const checkWeather = weathers.length > 0 ? weathers[0] : null;
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [viewport, setViewport] = useState({
     latitude: 30.37532,
@@ -35,7 +36,8 @@ const GMap = ({ weathers }) => {
       longitude: weathers?.length ? parseFloat(weathers[0]?.longitude) : 69.345116,
       zoom: 5,
     });
-  }, [weathers ? weathers[0] : null]);
+  }, [checkWeather]);
+  console.log(weathers);
   return (
     <ReactMapGL
       className="map-wrapper"
@@ -44,21 +46,23 @@ const GMap = ({ weathers }) => {
       height="100%"
       mapboxApiAccessToken="pk.eyJ1Ijoic2FsbWFuLWFzaWYiLCJhIjoiY2tpdnE3NGoyM2E2MDJybGJteDdodmZqZyJ9.mG0O6hcWIvKjsW_tC0CpDg"
       onViewportChange={(viewport) => setViewport(viewport)}>
-      {weathers?.map((country) => (
-        <Marker
-          key={country.city}
-          latitude={parseFloat(country.latitude)}
-          longitude={parseFloat(country.longitude)}>
-          <button
-            className="marker-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              setSelectedCountry(country);
-            }}>
-            <img src={MarkerImage} alt="marker" />
-          </button>
-        </Marker>
-      ))}
+      {weathers?.map((country) => {
+        return (
+          <Marker
+            key={country.city}
+            latitude={parseFloat(country.latitude)}
+            longitude={parseFloat(country.longitude)}>
+            <button
+              className="marker-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                setSelectedCountry(country);
+              }}>
+              <img src={MarkerImage} alt="markers" />
+            </button>
+          </Marker>
+        );
+      })}
 
       {selectedCountry ? (
         <Popup

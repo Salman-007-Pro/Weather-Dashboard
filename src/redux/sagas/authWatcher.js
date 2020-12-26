@@ -1,5 +1,4 @@
-import { takeLatest, put, call } from "redux-saga/effects";
-import _ from "lodash";
+import { takeLatest, put, call, delay } from "redux-saga/effects";
 
 //firebase instance
 import firebase from "FirebaseConfig/config";
@@ -20,6 +19,15 @@ import {
 
   //logout
   LOGOUT_IN_PROGRESS,
+
+  //facebook login
+  FACEBOOK_LOGIN_IN_PROGRESS,
+
+  //google login
+  GOOGLE_LOGIN_IN_PROGRESS,
+
+  //github login
+  GITHUB_LOGIN_IN_PROGRESS,
 } from "constants/actions";
 
 import { ADMIN, USER } from "constants/role";
@@ -40,6 +48,18 @@ const {
   //logout
   logoutSuccess,
   logoutFailed,
+
+  //facebook login
+  facebookLoginSuccess,
+  facebookLoginFailed,
+
+  //google login
+  googleLoginSuccess,
+  googleLoginFailed,
+
+  //github login
+  githubLoginSuccess,
+  githubLoginFailed,
 } = Actions;
 
 //auth
@@ -93,6 +113,7 @@ function* login({ payload }) {
 function* checkAuth() {
   try {
     const user = yield auth.currentUser;
+    yield delay(1000);
     if (user) {
       const localuid = yield call([localStorage, localStorage.getItem], "token");
       const isAuth = user?.uid === localuid ? true : false;
@@ -108,11 +129,83 @@ function* checkAuth() {
 function* logout() {
   try {
     yield auth.signOut();
-    const user = yield auth.currentUser;
     yield call([localStorage, localStorage.clear]);
+    yield delay(2000);
     yield put(logoutSuccess());
   } catch (err) {
     yield put(logoutFailed(err));
+  }
+}
+
+//google
+function* googleLogin() {
+  try {
+    console.log("google");
+    let provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({
+      display: "popup",
+    });
+    const result = yield call([auth, auth.signInWithPopup], provider);
+    let user = yield call(getDataFirebase, "users", result.user.uid);
+    if (!user) {
+      yield call(setDataFirebase, "users", result.user.uid, {
+        name: result?.user?.displayName,
+        imageUrl: result?.user?.photoURL,
+        role: USER,
+      });
+      user = yield call(getDataFirebase, "users", result.user.uid);
+    }
+    yield put(googleLoginSuccess(user));
+  } catch (err) {
+    yield put(googleLoginFailed(err));
+  }
+}
+
+//facebook
+function* facebookLogin() {
+  try {
+    console.log("facebook");
+    let provider = new firebase.auth.FacebookAuthProvider();
+    provider.setCustomParameters({
+      display: "popup",
+    });
+    const result = yield call([auth, auth.signInWithPopup], provider);
+    let user = yield call(getDataFirebase, "users", result.user.uid);
+    if (!user) {
+      yield call(setDataFirebase, "users", result.user.uid, {
+        name: result?.user?.displayName,
+        imageUrl: result?.user?.photoURL,
+        role: USER,
+      });
+      user = yield call(getDataFirebase, "users", result.user.uid);
+    }
+    yield put(facebookLoginSuccess(user));
+  } catch (err) {
+    yield put(facebookLoginFailed(err));
+  }
+}
+
+//github
+function* githubLogin() {
+  try {
+    console.log("github");
+    let provider = new firebase.auth.GithubAuthProvider();
+    provider.setCustomParameters({
+      display: "popup",
+    });
+    const result = yield call([auth, auth.signInWithPopup], provider);
+    let user = yield call(getDataFirebase, "users", result.user.uid);
+    if (!user) {
+      yield call(setDataFirebase, "users", result.user.uid, {
+        name: result?.user?.displayName,
+        imageUrl: result?.user?.photoURL,
+        role: USER,
+      });
+      user = yield call(getDataFirebase, "users", result.user.uid);
+    }
+    yield put(githubLoginSuccess(user));
+  } catch (err) {
+    yield put(githubLoginFailed(err));
   }
 }
 
@@ -121,5 +214,8 @@ function* authWatcher() {
   yield takeLatest(LOGIN_IN_PROGRESS, login);
   yield takeLatest(CHECK_AUTH_IN_PROGRESS, checkAuth);
   yield takeLatest(LOGOUT_IN_PROGRESS, logout);
+  yield takeLatest(FACEBOOK_LOGIN_IN_PROGRESS, facebookLogin);
+  yield takeLatest(GOOGLE_LOGIN_IN_PROGRESS, googleLogin);
+  yield takeLatest(GITHUB_LOGIN_IN_PROGRESS, githubLogin);
 }
 export default authWatcher;

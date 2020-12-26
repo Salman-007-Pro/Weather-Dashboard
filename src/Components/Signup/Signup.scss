@@ -2,6 +2,8 @@
   font-family: "Oswald";
   letter-spacing: 1px;
   font-size: 1.8rem;
+  height: 100vh;
+  position: relative;
   .signup-title {
     margin-bottom: 24px;
     text-align: center;
@@ -10,8 +12,12 @@
     }
   }
   .signup-body {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
     max-width: 420px;
-    margin: 12% auto 0 auto;
+    // margin: 12% auto 0 auto;
     background: #fff;
     padding: 40px 40px;
     border-radius: 5px;

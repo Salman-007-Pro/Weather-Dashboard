@@ -30,15 +30,36 @@ import "./Login.scss";
 const {
   //login
   loginInProgress,
+
+  //facebook login
+  facebookLoginInProgress,
+
+  //google login
+  googleLoginInProgress,
+
+  //github login
+  githubLoginInProgress,
 } = Actions;
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { user, uiStatelogin, error } = useSelector((state) => state.Auth);
+  const { uiStatelogin, error, uiStateSocialLogin } = useSelector((state) => state.Auth);
   const onFinish = ({ email, password }) => {
     dispatch(loginInProgress(email, password));
   };
-  if (uiStatelogin === SUCCESS) {
+
+  const googleLoginHandler = () => {
+    dispatch(googleLoginInProgress());
+  };
+
+  const githubLoginHandler = () => {
+    dispatch(githubLoginInProgress());
+  };
+
+  const facebookLoginHandler = () => {
+    dispatch(facebookLoginInProgress());
+  };
+  if (uiStatelogin === SUCCESS || uiStateSocialLogin === SUCCESS) {
     return <Redirect to="/" />;
   }
 
@@ -66,9 +87,9 @@ const Login = () => {
           </Form.Item>
           <Form.Item>
             <div className="login-social">
-              <GoogleOutlined className="social-icon" />
-              <FacebookFilled className="social-icon" />
-              <GithubOutlined className="social-icon" />
+              <GoogleOutlined className="social-icon" onClick={googleLoginHandler} />
+              <FacebookFilled className="social-icon" onClick={facebookLoginHandler} />
+              <GithubOutlined className="social-icon" onClick={githubLoginHandler} />
             </div>
           </Form.Item>
           <div className="submit-button">
@@ -83,6 +104,7 @@ const Login = () => {
         </Form>
       </div>
       {uiStatelogin === FAILED && <Alert message={error.message} type="error" showIcon />}
+      {uiStateSocialLogin === FAILED && <Alert message={error.message} type="error" showIcon />}}
     </div>
   );
 };

@@ -20,14 +20,11 @@ const PrivateRoute = ({ checkAuth, Auth }) => {
   // const dispatch = useDispatch();
   // const { uiStateAuth, error, isAuth } = useSelector((state) => state.Auth);
   const { uiStateAuth, error, isAuth } = Auth;
-  useEffect(() => {
-    // console.log("asd");
+  useEffect(
     // dispatch(checkAuthInProgress());
-    checkAuth();
-    return () => {
-      console.log("yeh chalna nhi chaiye");
-    };
-  }, [isAuth]);
+    checkAuth,
+    [isAuth]
+  );
 
   return (
     <Async

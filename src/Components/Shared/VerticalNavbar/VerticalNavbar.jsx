@@ -1,7 +1,7 @@
 //main
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 
 //antd components
 import { Layout, Menu, Avatar, Button } from "antd";
@@ -23,6 +23,7 @@ import Actions from "redux/actions";
 
 //constant
 import { IN_PROGRESS, SUCCESS, FAILED } from "constants/loader";
+import { ADMIN, USER } from "constants/role";
 
 //scss
 import "./VerticalNavbar.scss";
@@ -35,15 +36,20 @@ const {
 } = Actions;
 
 const VerticalNavbar = () => {
+  const location = useLocation();
   const history = useHistory();
+  const match = useRouteMatch();
   const dispatch = useDispatch();
-  const { uiStateLogout, error } = useSelector((state) => state.Auth);
+  const {
+    uiStateLogout,
+    error,
+    user: { role, name, imageUrl },
+  } = useSelector((state) => state.Auth);
   const [collapsed, setCollapsed] = useState(false);
 
   const onCollapse = (collapsed) => setCollapsed(collapsed);
   if (uiStateLogout === SUCCESS) {
     history.go("/auth/login");
-    // return <Redirect to="/" />;
   }
 
   return (
@@ -57,23 +63,32 @@ const VerticalNavbar = () => {
         <div className="slider-wrapper">
           <div className="slider-user">
             <div className="user-avatar">
-              <Avatar size={55} icon={<UserOutlined />} />
+              <Avatar
+                src={imageUrl}
+                size={55}
+                icon={<UserOutlined />}
+                style={{ backgroundColor: "#87d068" }}>
+                {name[0]}
+              </Avatar>
             </div>
-            {!collapsed && <h2 className="user-name">Muhammad Salman Asif</h2>}
+            {!collapsed && <h2 className="user-name">{name}</h2>}
           </div>
           <div className="slider-menu">
-            <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-              <Menu.Item key="1" icon={<HomeOutlined />}>
-                Home
+            <Menu theme="dark" defaultSelectedKeys={[location.pathname]} mode="inline">
+              <Menu.Item key={`${match.url}/home`} icon={<HomeOutlined />}>
+                <Link to={`${match.url}/home`}>Home</Link>
               </Menu.Item>
-              <Menu.Item key="46" icon={<UsergroupAddOutlined />}>
-                All Users
+              {role === ADMIN && (
+                <Menu.Item key={`${match.url}/allUsers`} icon={<UsergroupAddOutlined />}>
+                  <Link to={`${match.url}/allUsers`}>All Users</Link>
+                </Menu.Item>
+              )}
+              <Menu.Item key={`${match.url}/setting`} icon={<SettingOutlined />}>
+                <Link to={`${match.url}/setting`}>Setting</Link>
               </Menu.Item>
-              <Menu.Item key="2" icon={<SettingOutlined />}>
-                Setting
-              </Menu.Item>
-              <Menu.Item key="3" icon={<LogoutOutlined />}>
+              <Menu.Item key={`${match.url}/logout`} icon={<LogoutOutlined />}>
                 <Button
+                  className="slider-btn"
                   loading={uiStateLogout === IN_PROGRESS}
                   onClick={() => dispatch(logoutInProgress())}>
                   Logout

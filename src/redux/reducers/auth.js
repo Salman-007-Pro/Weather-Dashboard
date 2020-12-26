@@ -18,6 +18,21 @@ import {
   LOGOUT_IN_PROGRESS,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
+
+  //facebook login
+  FACEBOOK_LOGIN_IN_PROGRESS,
+  FACEBOOK_LOGIN_SUCCESS,
+  FACEBOOK_LOGIN_FAILED,
+
+  //google login
+  GOOGLE_LOGIN_IN_PROGRESS,
+  GOOGLE_LOGIN_SUCCESS,
+  GOOGLE_LOGIN_FAILED,
+
+  //github login
+  GITHUB_LOGIN_IN_PROGRESS,
+  GITHUB_LOGIN_SUCCESS,
+  GITHUB_LOGIN_FAILED,
 } from "constants/actions";
 
 //constant
@@ -28,6 +43,7 @@ const initialState = {
   uiStatelogin: null,
   uiStateAuth: null,
   uiStateLogout: null,
+  uiStateSocialLogin: null,
   user: {},
   isAuth: false,
   error: "",
@@ -60,6 +76,7 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         uiStatelogin: IN_PROGRESS,
+        uiStateSocialLogin: null,
         error: "",
       };
 
@@ -117,6 +134,69 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         uiStateLogout: FAILED,
+        error: action.payload.error,
+      };
+
+    case FACEBOOK_LOGIN_IN_PROGRESS:
+      return {
+        ...state,
+        uiStateSocialLogin: IN_PROGRESS,
+        error: "",
+      };
+
+    case FACEBOOK_LOGIN_SUCCESS:
+      return {
+        ...state,
+        uiStateSocialLogin: SUCCESS,
+        user: action.payload.user,
+        error: "",
+      };
+    case FACEBOOK_LOGIN_FAILED:
+      return {
+        ...state,
+        uiStateSocialLogin: FAILED,
+        error: action.payload.error,
+      };
+
+    case GOOGLE_LOGIN_IN_PROGRESS:
+      return {
+        ...state,
+        uiStateSocialLogin: IN_PROGRESS,
+        error: "",
+      };
+
+    case GOOGLE_LOGIN_SUCCESS:
+      return {
+        ...state,
+        uiStateSocialLogin: SUCCESS,
+        user: action.payload.user,
+        error: "",
+      };
+    case GOOGLE_LOGIN_FAILED:
+      return {
+        ...state,
+        uiStateSocialLogin: FAILED,
+        error: action.payload.error,
+      };
+
+    case GITHUB_LOGIN_IN_PROGRESS:
+      return {
+        ...state,
+        uiStateSocialLogin: IN_PROGRESS,
+        error: "",
+      };
+
+    case GITHUB_LOGIN_SUCCESS:
+      return {
+        ...state,
+        uiStateSocialLogin: SUCCESS,
+        user: action.payload.user,
+        error: "",
+      };
+    case GITHUB_LOGIN_FAILED:
+      return {
+        ...state,
+        uiStateSocialLogin: FAILED,
         error: action.payload.error,
       };
     default:
