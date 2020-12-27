@@ -33,6 +33,16 @@ import {
   GITHUB_LOGIN_IN_PROGRESS,
   GITHUB_LOGIN_SUCCESS,
   GITHUB_LOGIN_FAILED,
+
+  //subscription
+  SUBSCRIPTION_IN_PROGRESS,
+  SUBSCRIPTION_SUCCESS,
+  SUBSCRIPTION_FAILED,
+
+  //unsubscribe
+  UNSUBSCRIBE_IN_PROGRESS,
+  UNSUBSCRIBE_SUCCESS,
+  UNSUBSCRIBE_FAILED,
 } from "constants/actions";
 
 //constant
@@ -44,6 +54,8 @@ const initialState = {
   uiStateAuth: null,
   uiStateLogout: null,
   uiStateSocialLogin: null,
+  uiStateSubscription: null,
+  uiStateUnsubscription: null,
   user: {},
   isAuth: false,
   error: "",
@@ -197,6 +209,56 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         uiStateSocialLogin: FAILED,
+        error: action.payload.error,
+      };
+
+    case SUBSCRIPTION_IN_PROGRESS:
+      return {
+        ...state,
+        uiStateSubscription: IN_PROGRESS,
+        error: "",
+      };
+
+    case SUBSCRIPTION_SUCCESS:
+      console.log(action.payload.subscription);
+      return {
+        ...state,
+        uiStateSubscription: SUCCESS,
+        user: {
+          ...state.user,
+          subscription: action.payload.subscription,
+        },
+        error: "",
+      };
+    case SUBSCRIPTION_FAILED:
+      return {
+        ...state,
+        uiStateSubscription: FAILED,
+        error: action.payload.error,
+      };
+
+    case UNSUBSCRIBE_IN_PROGRESS:
+      return {
+        ...state,
+        uiStateUnsubscription: IN_PROGRESS,
+        error: "",
+      };
+
+    case UNSUBSCRIBE_SUCCESS:
+      console.log(action.payload.subscription);
+      return {
+        ...state,
+        uiStateUnsubscription: SUCCESS,
+        user: {
+          ...state.user,
+          subscription: action.payload.subscription,
+        },
+        error: "",
+      };
+    case UNSUBSCRIBE_FAILED:
+      return {
+        ...state,
+        uiStateUnsubscription: FAILED,
         error: action.payload.error,
       };
     default:

@@ -14,9 +14,10 @@
     margin-bottom: 6rem;
     font-family: "Oswald";
     > p {
-      color: #ccc;
+      color: darken(blue, 50%);
       span {
-        color: black;
+        color: red;
+        cursor: pointer;
       }
     }
   }

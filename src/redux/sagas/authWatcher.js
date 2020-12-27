@@ -28,6 +28,12 @@ import {
 
   //github login
   GITHUB_LOGIN_IN_PROGRESS,
+
+  //subscription
+  SUBSCRIPTION_IN_PROGRESS,
+
+  //unsubscribe
+  UNSUBSCRIBE_IN_PROGRESS,
 } from "constants/actions";
 
 import { ADMIN, USER } from "constants/role";
@@ -60,6 +66,14 @@ const {
   //github login
   githubLoginSuccess,
   githubLoginFailed,
+
+  //subscription
+  subscriptionSuccess,
+  subscriptionFailed,
+
+  //unsubscription
+  unsubscriptionSuccess,
+  unsubscriptionFailed,
 } = Actions;
 
 //auth
@@ -88,6 +102,7 @@ function* signup({ payload }) {
     yield call(setDataFirebase, "users", uid, {
       name: name,
       role: USER,
+      subscription: false,
     });
     const user = yield call(getDataFirebase, "users", uid);
     yield put(signupSuccess(user));
@@ -152,6 +167,7 @@ function* googleLogin() {
         name: result?.user?.displayName,
         imageUrl: result?.user?.photoURL,
         role: USER,
+        subscription: false,
       });
       user = yield call(getDataFirebase, "users", result.user.uid);
     }
@@ -176,6 +192,7 @@ function* facebookLogin() {
         name: result?.user?.displayName,
         imageUrl: result?.user?.photoURL,
         role: USER,
+        subscription: false,
       });
       user = yield call(getDataFirebase, "users", result.user.uid);
     }
@@ -200,12 +217,41 @@ function* githubLogin() {
         name: result?.user?.displayName,
         imageUrl: result?.user?.photoURL,
         role: USER,
+        subscription: false,
       });
       user = yield call(getDataFirebase, "users", result.user.uid);
     }
     yield put(githubLoginSuccess(user));
   } catch (err) {
     yield put(githubLoginFailed(err));
+  }
+}
+
+function* subscription() {
+  try {
+    const { uid } = yield auth.currentUser;
+    yield call(updateDataFirebase, "users", uid, {
+      subscription: true,
+    });
+    //  yield call(getDataFirebase, "users", uid);
+    yield put(subscriptionSuccess(true));
+  } catch (err) {
+    console.log(err);
+    yield put(subscriptionFailed(err));
+  }
+}
+
+function* unsubscription() {
+  try {
+    const { uid } = yield auth.currentUser;
+    yield call(updateDataFirebase, "users", uid, {
+      subscription: false,
+    });
+    // const user = yield call(getDataFirebase, "users", uid);
+    yield put(unsubscriptionSuccess(false));
+  } catch (err) {
+    console.log(err);
+    yield put(unsubscriptionFailed(err));
   }
 }
 
@@ -217,5 +263,7 @@ function* authWatcher() {
   yield takeLatest(FACEBOOK_LOGIN_IN_PROGRESS, facebookLogin);
   yield takeLatest(GOOGLE_LOGIN_IN_PROGRESS, googleLogin);
   yield takeLatest(GITHUB_LOGIN_IN_PROGRESS, githubLogin);
+  yield takeLatest(SUBSCRIPTION_IN_PROGRESS, subscription);
+  yield takeLatest(UNSUBSCRIBE_IN_PROGRESS, unsubscription);
 }
 export default authWatcher;

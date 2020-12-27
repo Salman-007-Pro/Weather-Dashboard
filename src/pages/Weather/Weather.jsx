@@ -1,15 +1,23 @@
 //main
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+//stripe checkout
+import StripeCheckout from "react-stripe-checkout";
 
 //components
 import Heading from "Components/Shared/Heading/Heading";
 import SelectForm from "Components/SelectForm/SelectForm";
 import GMap from "Components/GMap/GMap";
 import DataTable from "Components/Shared/DataTable/DataTable";
+import Alert from "Components/Shared/Alert/Alert";
 
 //constants
-import { ADMIN } from "constants/role";
+import { ADMIN, USER } from "constants/role";
+import { IN_PROGRESS, SUCCESS, FAILED } from "constants/loader";
+
+//actions
+import Actions from "redux/actions";
 
 //momentjs
 import moment from "moment";
@@ -56,12 +64,35 @@ const columns = [
   },
 ];
 
+const {
+  //get subscription
+  subscriptionInProgress,
+
+  //get unsubcription
+  unsubscriptionInProgress,
+} = Actions;
+
 const Weather = () => {
+  const dispatch = useDispatch();
   const { weatherData, selected } = useSelector((state) => state.Weather);
   const {
-    user: { role },
+    uiStateSubscription,
+    uiStateUnsubscription,
+    user: { role, subscription },
+    error,
   } = useSelector((state) => state.Auth);
+
   let searchData, currentData, forecastData;
+  const subscriptionHandler = (token) => {
+    const { id } = token;
+    dispatch(subscriptionInProgress());
+  };
+
+  const unsubscriptionHandler = (token) => {
+    const { id } = token;
+    dispatch(unsubscriptionInProgress());
+  };
+
   if (weatherData.length > 0) {
     const { country, region, city, daily, current } =
       selected >= 0 ? weatherData[selected] : weatherData[0];
@@ -104,6 +135,7 @@ const Weather = () => {
       sunset: moment.unix(el.sunset).format("Do MMM YYYY, h:mm:ss"),
     }));
   }
+
   return (
     <div className="weather-wrapper">
       <Heading text="Weather Check Any Country, City or Region" />
@@ -112,17 +144,32 @@ const Weather = () => {
       </div>
       <div className="weather-table">
         <DataTable data={searchData} text="Search Data:" columns={columns} />
-        {role !== ADMIN && (
+        {role !== ADMIN && !subscription && (
           <p>
-            Subscribe to the weather update to get forecast data for 7 days{" "}
-            <span>(Subscribe Now)</span>
+            Subscribe to get the weather update for 7 days of forecast data{" "}
+            <StripeCheckout
+              stripeKey="pk_test_51I2k9hA4XjJGkrHH8i12F9G4rEe530dpc915nENgeozp0UO2a4EV1NjAtiCOxsf6ox2R1FZdUa9tZehD9h88OQDA00ZxcSym09"
+              token={subscriptionHandler}
+              name="Subscription"
+              description="More Detail of Weather(4242 4242 4242 4242)"
+              amount={100 * 100}
+              currency="USD">
+              <span>(Subscribe Now)</span>
+            </StripeCheckout>
+          </p>
+        )}
+        {role === USER && subscription && (
+          <p>
+            UnSubscribe details <span onClick={unsubscriptionHandler}>(UnSubscribe Now)</span>
           </p>
         )}
       </div>
-      <div className="weather-table">
-        <DataTable data={currentData} text="Current Data:" columns={columns} />
-      </div>
-      {role === ADMIN && (
+      {(role === ADMIN || subscription) && (
+        <div className="weather-table">
+          <DataTable data={currentData} text="Current Data:" columns={columns} />
+        </div>
+      )}
+      {(role === ADMIN || subscription) && (
         <div className="weather-table">
           <DataTable data={forecastData} text="Forecast Data of 7 days:" columns={columns} />
         </div>
@@ -130,6 +177,8 @@ const Weather = () => {
       <div className="weather-map">
         <GMap weathers={weatherData} />
       </div>
+      {uiStateSubscription === FAILED && <Alert message={error.message} type="error" showIcon />}
+      {uiStateUnsubscription === FAILED && <Alert message={error.message} type="error" showIcon />}
     </div>
   );
 };

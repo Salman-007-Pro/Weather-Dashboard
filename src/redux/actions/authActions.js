@@ -33,6 +33,16 @@ import {
   GITHUB_LOGIN_IN_PROGRESS,
   GITHUB_LOGIN_SUCCESS,
   GITHUB_LOGIN_FAILED,
+
+  //subscription
+  SUBSCRIPTION_IN_PROGRESS,
+  SUBSCRIPTION_SUCCESS,
+  SUBSCRIPTION_FAILED,
+
+  //unsubscribe
+  UNSUBSCRIBE_IN_PROGRESS,
+  UNSUBSCRIBE_SUCCESS,
+  UNSUBSCRIBE_FAILED,
 } from "constants/actions";
 
 // export const fakeAuth = {
@@ -213,6 +223,54 @@ export const githubLoginSuccess = (user) => {
 export const githubLoginFailed = (error) => {
   return {
     type: GITHUB_LOGIN_FAILED,
+    payload: { error },
+  };
+};
+
+//subscription
+export const subscriptionInProgress = () => {
+  return {
+    type: SUBSCRIPTION_IN_PROGRESS,
+    payload: {},
+  };
+};
+
+export const subscriptionSuccess = (subscription) => {
+  return {
+    type: SUBSCRIPTION_SUCCESS,
+    payload: {
+      subscription,
+    },
+  };
+};
+
+export const subscriptionFailed = (error) => {
+  return {
+    type: SUBSCRIPTION_FAILED,
+    payload: { error },
+  };
+};
+
+//unsubscription
+export const unsubscriptionInProgress = () => {
+  return {
+    type: UNSUBSCRIBE_IN_PROGRESS,
+    payload: {},
+  };
+};
+
+export const unsubscriptionSuccess = (subscription) => {
+  return {
+    type: UNSUBSCRIBE_SUCCESS,
+    payload: {
+      subscription,
+    },
+  };
+};
+
+export const unsubscriptionFailed = (error) => {
+  return {
+    type: UNSUBSCRIBE_FAILED,
     payload: { error },
   };
 };

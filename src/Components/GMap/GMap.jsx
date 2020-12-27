@@ -37,7 +37,6 @@ const GMap = ({ weathers }) => {
       zoom: 5,
     });
   }, [checkWeather]);
-  console.log(weathers);
   return (
     <ReactMapGL
       className="map-wrapper"
