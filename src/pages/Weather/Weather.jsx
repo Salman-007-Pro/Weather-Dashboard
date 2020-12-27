@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 //stripe checkout
 import StripeCheckout from "react-stripe-checkout";
 
+//antd components
+import { Spin, Button } from "antd";
+
 //components
 import Heading from "Components/Shared/Heading/Heading";
 import SelectForm from "Components/SelectForm/SelectForm";
@@ -154,13 +157,21 @@ const Weather = () => {
               description="More Detail of Weather(4242 4242 4242 4242)"
               amount={100 * 100}
               currency="USD">
-              <span>(Subscribe Now)</span>
+              <Button className="unsub-btn" loading={uiStateSubscription === IN_PROGRESS}>
+                (Subscribe Now)
+              </Button>
             </StripeCheckout>
           </p>
         )}
         {role === USER && subscription && (
           <p>
-            UnSubscribe details <span onClick={unsubscriptionHandler}>(UnSubscribe Now)</span>
+            UnSubscribe details{" "}
+            <Button
+              className="unsub-btn"
+              onClick={unsubscriptionHandler}
+              loading={uiStateUnsubscription === IN_PROGRESS}>
+              (UnSubscribe Now)
+            </Button>
           </p>
         )}
       </div>

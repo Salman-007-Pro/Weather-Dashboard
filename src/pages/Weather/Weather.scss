@@ -13,11 +13,18 @@
     width: 80%;
     margin-bottom: 6rem;
     font-family: "Oswald";
+
     > p {
       color: darken(blue, 50%);
       span {
         color: red;
         cursor: pointer;
+      }
+      .unsub-btn,
+      .unsub-btn:focus {
+        background-color: transparent;
+        padding: 0;
+        border: none;
       }
     }
   }

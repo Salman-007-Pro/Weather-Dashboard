@@ -28,11 +28,9 @@ const {
 
 const Signup = () => {
   const dispatch = useDispatch();
-  const { user, uiStateSignup, error } = useSelector((state) => state.Auth);
-  console.log(user, uiStateSignup);
+  const { uiStateSignup, error } = useSelector((state) => state.Auth);
 
   const onFinish = ({ email, password, name }) => {
-    console.log(email, password, name);
     dispatch(signupInProgress(email, password, name));
   };
   if (uiStateSignup === SUCCESS) {

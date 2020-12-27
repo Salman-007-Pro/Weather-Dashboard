@@ -128,7 +128,7 @@ function* login({ payload }) {
 function* checkAuth() {
   try {
     const user = yield auth.currentUser;
-    yield delay(1000);
+    yield delay(300);
     if (user) {
       const localuid = yield call([localStorage, localStorage.getItem], "token");
       const isAuth = user?.uid === localuid ? true : false;

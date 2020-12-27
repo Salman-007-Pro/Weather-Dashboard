@@ -3,11 +3,11 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./Loader.scss";
 
-const Loader = (props) => {
+const Loader = ({ spin = 30 }) => {
   return (
     <Spin
       size="large"
-      indicator={<LoadingOutlined style={{ fontSize: 30 }} spin />}
+      indicator={<LoadingOutlined style={{ fontSize: spin }} spin />}
       className="loader-center1"
     />
   );
