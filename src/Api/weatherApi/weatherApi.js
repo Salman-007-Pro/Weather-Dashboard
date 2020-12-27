@@ -9,18 +9,18 @@ import axios from "axios";
 
 export const getAllCountryName = async () => {
   return await axios.get(
-    "http://battuta.medunes.net/api/country/all/?key=ca6b0e43115ea85b899a54150ad0e1dc"
+    "https://battuta.medunes.net/api/country/all/?key=ca6b0e43115ea85b899a54150ad0e1dc"
   );
 };
 
 export const getCountryRegions = async (countryCode) => {
   return await axios.get(
-    `http://battuta.medunes.net/api/region/${countryCode}/all/?key=ca6b0e43115ea85b899a54150ad0e1dc`
+    `https://battuta.medunes.net/api/region/${countryCode}/all/?key=ca6b0e43115ea85b899a54150ad0e1dc`
   );
 };
 export const getRegionCities = async (countryCode, region) => {
   return await axios.get(
-    `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=ca6b0e43115ea85b899a54150ad0e1dc`
+    `https://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=ca6b0e43115ea85b899a54150ad0e1dc`
   );
 };
 
