@@ -43,7 +43,7 @@ const GMap = ({ weathers }) => {
       {...viewport}
       width="100%"
       height="100%"
-      mapboxApiAccessToken="pk.eyJ1Ijoic2FsbWFuLWFzaWYiLCJhIjoiY2tpdnE3NGoyM2E2MDJybGJteDdodmZqZyJ9.mG0O6hcWIvKjsW_tC0CpDg"
+      mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
       onViewportChange={(viewport) => setViewport(viewport)}>
       {weathers?.map((country) => {
         return (
