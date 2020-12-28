@@ -110,17 +110,20 @@ export const loginFailed = (error) => {
 };
 
 //check auth
-export const checkAuthInProgress = () => {
+export const checkAuthInProgress = (user) => {
   return {
     type: CHECK_AUTH_IN_PROGRESS,
-    payload: {},
+    payload: {
+      user,
+    },
   };
 };
 
-export const checkAuthSuccess = (isAuth) => {
+export const checkAuthSuccess = (user, isAuth) => {
   return {
     type: CHECK_AUTH_SUCCESS,
     payload: {
+      user,
       isAuth,
     },
   };

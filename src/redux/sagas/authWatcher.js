@@ -118,21 +118,23 @@ function* login({ payload }) {
       user: { uid },
     } = yield call([auth, auth.signInWithEmailAndPassword], email, password);
     yield call([localStorage, localStorage.setItem], "token", uid);
-    const user = yield call(getDataFirebase, "users", uid);
-    yield put(loginSuccess(user));
+    // const user = yield call(getDataFirebase, "users", uid);
+    yield put(loginSuccess());
   } catch (err) {
     yield put(loginFailed(err));
   }
 }
 
-function* checkAuth() {
+function* checkAuth({ payload }) {
   try {
-    const user = yield auth.currentUser;
-    yield delay(300);
+    const { user } = payload;
+    yield delay(1000);
     if (user) {
+      const { uid } = user;
+      const curUser = yield call(getDataFirebase, "users", uid);
       const localuid = yield call([localStorage, localStorage.getItem], "token");
-      const isAuth = user?.uid === localuid ? true : false;
-      yield put(checkAuthSuccess(isAuth));
+      const isAuth = uid === localuid ? true : false;
+      yield put(checkAuthSuccess(curUser, isAuth));
     } else {
       yield put(checkAuthFailed("Not valid user"));
     }
@@ -145,7 +147,6 @@ function* logout() {
   try {
     yield auth.signOut();
     yield call([localStorage, localStorage.clear]);
-    yield delay(2000);
     yield put(logoutSuccess());
   } catch (err) {
     yield put(logoutFailed(err));

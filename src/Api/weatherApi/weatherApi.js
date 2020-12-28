@@ -7,20 +7,19 @@
 
 import axios from "axios";
 
+const key = "90ccdbc141bc100dfce3391908bf009b";
+
 export const getAllCountryName = async () => {
-  return await axios.get(
-    "http://battuta.medunes.net/api/country/all/?key=ca6b0e43115ea85b899a54150ad0e1dc"
-  );
+  return await axios.get(`http://battuta.medunes.net/api/country/all/?key=${key}`);
 };
 
 export const getCountryRegions = async (countryCode) => {
-  return await axios.get(
-    `http://battuta.medunes.net/api/region/${countryCode}/all/?key=ca6b0e43115ea85b899a54150ad0e1dc`
-  );
+  return await axios.get(`http://battuta.medunes.net/api/region/${countryCode}/all/?key=${key}`);
 };
+
 export const getRegionCities = async (countryCode, region) => {
   return await axios.get(
-    `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=ca6b0e43115ea85b899a54150ad0e1dc`
+    `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=${key}`
   );
 };
 

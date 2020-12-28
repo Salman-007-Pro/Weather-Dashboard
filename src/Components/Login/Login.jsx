@@ -104,7 +104,7 @@ const Login = () => {
         </Form>
       </div>
       {uiStatelogin === FAILED && <Alert message={error.message} type="error" showIcon />}
-      {uiStateSocialLogin === FAILED && <Alert message={error.message} type="error" showIcon />}}
+      {uiStateSocialLogin === FAILED && <Alert message={error.message} type="error" showIcon />}
     </div>
   );
 };

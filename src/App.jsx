@@ -7,6 +7,9 @@ import Store from "redux/store";
 //app routes
 import AppRoutes from "AppRoutes/AppRoutes";
 
+//firebase instance
+import firebase from "FirebaseConfig/config";
+
 //style
 import "styles/App.scss";
 

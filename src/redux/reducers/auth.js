@@ -73,6 +73,7 @@ const auth = (state = initialState, action) => {
     case SIGN_UP_SUCCESS:
       return {
         ...state,
+        uiStateAuth: IN_PROGRESS,
         uiStateSignup: SUCCESS,
         user: action.payload.user,
         error: "",
@@ -95,6 +96,7 @@ const auth = (state = initialState, action) => {
     case LOGIN_SUCCESS:
       return {
         ...state,
+        uiStateAuth: IN_PROGRESS,
         uiStatelogin: SUCCESS,
         user: action.payload.user,
         error: "",
@@ -117,6 +119,7 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         uiStateAuth: SUCCESS,
+        user: action.payload.user,
         isAuth: action.payload.isAuth,
         error: "",
       };
@@ -137,10 +140,7 @@ const auth = (state = initialState, action) => {
 
     case LOGOUT_SUCCESS:
       return {
-        ...state,
-        uiStateLogout: SUCCESS,
-        isAuth: false,
-        error: "",
+        ...initialState,
       };
     case LOGOUT_FAILED:
       return {
