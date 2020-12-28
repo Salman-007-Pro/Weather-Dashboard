@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 
 //antd components
-import { Spin, Button } from "antd";
+import { Button } from "antd";
 
 //components
 import Heading from "Components/Shared/Heading/Heading";
@@ -17,7 +17,7 @@ import Alert from "Components/Shared/Alert/Alert";
 
 //constants
 import { ADMIN, USER } from "constants/role";
-import { IN_PROGRESS, SUCCESS, FAILED } from "constants/loader";
+import { IN_PROGRESS, FAILED } from "constants/loader";
 
 //actions
 import Actions from "redux/actions";

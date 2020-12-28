@@ -8,18 +8,21 @@
 import axios from "axios";
 
 const key = "90ccdbc141bc100dfce3391908bf009b";
+const corsfixer = "https://cors-anywhere.herokuapp.com/";
 
 export const getAllCountryName = async () => {
-  return await axios.get(`http://battuta.medunes.net/api/country/all/?key=${key}`);
+  return await axios.get(`${corsfixer}http://battuta.medunes.net/api/country/all/?key=${key}`);
 };
 
 export const getCountryRegions = async (countryCode) => {
-  return await axios.get(`http://battuta.medunes.net/api/region/${countryCode}/all/?key=${key}`);
+  return await axios.get(
+    `${corsfixer}http://battuta.medunes.net/api/region/${countryCode}/all/?key=${key}`
+  );
 };
 
 export const getRegionCities = async (countryCode, region) => {
   return await axios.get(
-    `http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=${key}`
+    `${corsfixer}http://battuta.medunes.net/api/city/${countryCode}/search/?region=${region}&key=${key}`
   );
 };
 
